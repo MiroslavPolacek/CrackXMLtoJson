@@ -52,6 +52,56 @@ def XMLtoJSON(Path_xml, buffer = 30):
                             newJ[task_image]['size'] = img_width + 'x' + img_height
                             newJ[task_image]['regions'] = []
                             newJ[task_image]['file_attributes'] = {}
+                        if key3 == 'polygon':
+                            try:
+                                for hmkey, hmvalue in value3.items():
+                                    if hmkey == '@points':
+                                        bad_points = hmvalue
+                                        #print(bad_points)
+                                        bad_points_split = bad_points.split(';')
+
+                                        linepoints = []
+                                        for points in bad_points_split:
+                                            points_split = points.split(',')
+                                            point_xy = (float(points_split[0]), float(points_split[1]))
+                                            linepoints.append(point_xy)
+                                        shapely_polygon = geometry.Polygon(linepoints)
+                                        points_x, points_y = shapely_polygon.exterior.xy
+
+                                        shpAtt = {}
+                                        shpAtt['all_points_x'] = points_x.tolist()
+                                        shpAtt['all_points_y'] = points_y.tolist()
+                                        #print(shpAtt['all_points_x'])
+
+                                        regions = {'shape_attributes':shpAtt,'region_attributes':{'type':'CrackPoly'}}
+                                        newJ[task_image]['regions'].append(copy.deepcopy(regions))
+
+                            except:
+                                for hm in value3:
+
+                                    for polykey, polyvalue in hm.items():
+                                        if polykey == '@points':
+                                            bad_points = hmvalue
+                                            #print(bad_points)
+                                            bad_points_split = bad_points.split(';')
+
+                                            linepoints = []
+                                            for points in bad_points_split:
+                                                points_split = points.split(',')
+                                                point_xy = (float(points_split[0]), float(points_split[1]))
+                                                linepoints.append(point_xy)
+                                            shapely_polygon = geometry.Polygon(linepoints)
+                                            points_x, points_y = shapely_polygon.exterior.xy
+
+                                            shpAtt = {}
+                                            shpAtt['all_points_x'] = points_x.tolist()
+                                            shpAtt['all_points_y'] = points_y.tolist()
+                                            #print(shpAtt['all_points_x'])
+
+                                            regions = {'shape_attributes':shpAtt,'region_attributes':{'type':'CrackPoly'}}
+                                            newJ[task_image]['regions'].append(copy.deepcopy(regions))
+
+
                         if key3 == 'polyline':
                             try:
                                 for hmkey, hmvalue in value3.items():
@@ -69,7 +119,6 @@ def XMLtoJSON(Path_xml, buffer = 30):
                                         #print(line)
                                         buffer_points = line.buffer(buffer, cap_style=1)
                                         #to make ends round use cap_style=1, 2 finishes it sharp at the end of the line ton prevent polygons to stick out of the picture
-
 
                                         ##correct those that are out of range of 2 and max-2 (height, width)
                                         height = float(img_height)-2
@@ -142,6 +191,5 @@ def XMLtoJSON(Path_xml, buffer = 30):
 
                                             regions = {'shape_attributes':shpAtt,'region_attributes':{'type':'RingBndy'}}
                                             newJ[task_image]['regions'].append(copy.deepcopy(regions))
-
 
     return(newJ)
