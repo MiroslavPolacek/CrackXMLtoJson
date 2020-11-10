@@ -78,10 +78,9 @@ def XMLtoJSON(Path_xml, buffer = 30):
 
                             except:
                                 for hm in value3:
-
                                     for polykey, polyvalue in hm.items():
                                         if polykey == '@points':
-                                            bad_points = hmvalue
+                                            bad_points = polyvalue
                                             #print(bad_points)
                                             bad_points_split = bad_points.split(';')
 
