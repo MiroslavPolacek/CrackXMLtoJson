@@ -67,14 +67,14 @@ def linesToPolygons(input = os.path.join(ROOT_DIR,'Mask_RCNN/JSONtransform/testJ
 
 
 #for conveniance run on all jsons in directory and merge them in one
-##function takes input folder and take .json files, transforms them and export transformed files and complete combined file in the output folder 
+##function takes input folder and take .json files, transforms them and export transformed files and complete combined file in the output folder
 ##this is still not working :(
 def transformallJSON(input_folder, output_folder):
     dic_all = {}
     for file in os.listdir(input_folder):
         if file.endswith(".json"):
             try:
-                
+
                 input = os.path.join(input_folder, file)
                 output = os.path.join(output_folder,'transformed' + file)
                 print(input)
@@ -91,5 +91,3 @@ def transformallJSON(input_folder, output_folder):
         print(imageAtt['filename'])
         filenames.append(imageAtt['filename'])
     return(dic_all, filenames)
-    
-    
