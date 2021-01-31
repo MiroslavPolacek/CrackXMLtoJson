@@ -70,25 +70,3 @@ output = os.path.join(PATH_OUTPUT,'via_region_data_transformed.json')
 with open(output,'w') as outfile:
                 json.dump(dic_subset, outfile,indent=4)
 print("Json was saved")
-
-# save a log file with all basic data of the run, number of images, rings and cracks
-## define function to cound the words in it
-def word_count(str):
-    counts = dict()
-    words = str.split()
-    for word in words:
-        if word in counts:
-            counts[word] += 1
-        else:
-            counts[word] = 1
-    return counts
-##count the words
-all_words = word_count(str(dic_subset)) #change to dic_subset
-
-
-log_file = os.path.join(PATH_OUTPUT, "dataset_log.txt")
-with open(log_file, 'w') as f:
-    print("Annotated images in all XMLs {}".format(len(dic_all)), file=f)
-    print("All images in tasks {}".format(len(all_images_names)), file=f)
-    print("Images that were moved in this dataset: {}".format(len(moved_images)), file=f)
-    print("In this dataset there are {} rings and {} cracks".format(all_words["'RingBndy'}},"], all_words["'CrackPoly'}},"] ), file=f)
