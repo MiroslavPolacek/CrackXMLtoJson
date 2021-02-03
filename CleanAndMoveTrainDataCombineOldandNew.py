@@ -6,6 +6,10 @@ To run on my mac:
 cd /Users/miroslav.polacek/github/CrackXMLtoJson &&
 conda activate TreeRingCNNtest &&
 python3 CleanAndMoveTrainDataCombineWithTheOld.py
+
+
+
+
 """
 import os
 import json
